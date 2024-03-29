@@ -1,0 +1,10 @@
+apiVersion: backstage.io/v1alpha1
+kind: Location
+metadata:
+  name: inner-outer-loop-templates
+  description: A collection of Backstage templates for the "Inner and Outer Loop with OpenShift" Lab
+spec:
+  type: url
+  targets:
+     - https://{{ gitlab_host }}/{{ gitlab_group }}/inner-outer-loop-templates/blob/master/vote-ui-python/template.yaml
+     - https://{{ gitlab_host }}/{{ gitlab_group }}/inner-outer-loop-templates/blob/master/vote-api-go/template.yaml
