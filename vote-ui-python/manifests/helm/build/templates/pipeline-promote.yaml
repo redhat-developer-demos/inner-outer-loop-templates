@@ -21,7 +21,7 @@ spec:
       default: latest
     - name: destination-image-tag
       type: string
-      default: latest
+      default: prod
     - name: namespace
       type: string
       default: {{ .Values.app.name }}-prod
@@ -35,9 +35,6 @@ spec:
     - name: component-id
       type: string
       default: {{ .Values.app.name }}
-    - description: ArgoCD host
-      name: argocd-host
-      type: string
   tasks:
     - name: copy-image-tag
       params:
