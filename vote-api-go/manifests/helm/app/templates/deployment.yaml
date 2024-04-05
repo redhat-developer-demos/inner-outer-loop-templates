@@ -32,13 +32,10 @@ spec:
       containers:
         - name: {{ .Chart.Name }}
           env:
-          - name: QUARKUS_PROFILE
-            value: openshift-cluster
-          - name: INFINISPAN_PASSWORD
-            valueFrom:
-              secretKeyRef:
-                key: password
-                name: infinispan-generated-secret
+          - name: VOTING_API_SERVICE_HOST
+            value: vote-api
+          - name: VOTING_API_SERVICE_PORT
+            value: "9000"
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: {{ include "quarkus-template.image" . }}

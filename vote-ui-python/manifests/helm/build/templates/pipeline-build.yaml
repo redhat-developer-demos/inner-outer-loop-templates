@@ -29,6 +29,9 @@ spec:
     - name: component-id
       type: string
       default: {{ .Values.app.name }}
+    - name: namespace
+      type: string
+      default: {{ .Values.app.namespaceDev }}
   tasks:
     - name: git-clone
       params:
@@ -57,7 +60,9 @@ spec:
     - name: resync
       params:
       - name: COMPONENT_ID
-        value: $(params.component-id)
+        value: $(params.component-id)-dev
+      - name: NAMESPACE
+        value: $(params.namespace)
       runAfter:
       - build-image
       taskRef:

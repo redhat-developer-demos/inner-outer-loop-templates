@@ -1,6 +1,8 @@
 app:
   name: ${{values.component_id}}
-  namespace: ${{values.component_id}}-dev
+  namespace: vote-app-dev-${{ values.user }}
+  namespaceDev: vote-app-dev-${{ values.user }}
+  namespaceProd: vote-app-prod-${{ values.user }}
   cluster: ${{ values.cluster }}
 
 git:
@@ -18,4 +20,5 @@ image:
   organization: ${{values.image_organization}}
   host: ${{ values.image_host }}
   name: ${{ values.image_name }}
+  user: ${{ values.user }}
   tag: ${{ values.image_tag }}

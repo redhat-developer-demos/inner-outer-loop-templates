@@ -75,7 +75,3 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
-
-infinispan:
-  deploy:
-    nameOverride: "infinispan"

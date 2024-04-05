@@ -32,9 +32,17 @@ spec:
     - name: git-owner
       type: string
       default: {{ .Values.git.org }}
-    - name: component-id
+    - name: app-name
       type: string
-      default: {{ .Values.app.name }}
+      default: vote-ui
+    - description: Common password used in demo
+      name: common-password-secret
+      type: string
+      default: common-password-secret
+    - description: ArgoCD host
+      name: argocd-host
+      type: string
+      default: argocd-server-janus-argocd{{ .Values.app.cluster }}
   tasks:
     - name: copy-image-tag
       params:
@@ -70,5 +78,18 @@ spec:
       workspaces:
         - name: images-url
           workspace: images-url
+    - name: resync
+      params:
+      - name: COMPONENT_ID
+        value: $(params.app-name)-$(params.git-owner)-prod
+      - name: NAMESPACE
+        value: $(params.namespace)
+      runAfter:
+      - build-image
+      taskRef:
+        kind: Task
+        name: resync
+      runAfter:
+        - copy-image-latest
   workspaces:
     - name: images-url
