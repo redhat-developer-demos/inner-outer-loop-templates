@@ -61,29 +61,29 @@ spec:
         copyWithoutTemplating:
           - .github/workflows/*
         values:
-          component_id: {{ ' ${{  parameters.component_id }}' }}-{{ ' ${{  user.entity.metadata.name }}' }}
-          description: {{ ' ${{  parameters.description }}' }}
-          namespace: vote-app-dev-{{ ' ${{  user.entity.metadata.name }}' }}
-          owner: {{ ' ${{  user.entity.metadata.name }}' }}
-          cluster: {{ ' ${{  parameters.cluster_id }}' }}
+          component_id: {{ '${{  parameters.component_id }}' }}-{{ '${{  user.entity.metadata.name }}' }}
+          description: {{ '${{  parameters.description }}' }}
+          namespace: vote-app-dev-{{ '${{  user.entity.metadata.name }}' }}
+          owner: {{ '${{  user.entity.metadata.name }}' }}
+          cluster: {{ '${{  parameters.cluster_id }}' }}
           host: gitlab-gitlab{{ cluster_subdomain }}
-          destination: {{ ' ${{  user.entity.metadata.name }}' }}/{{ ' ${{  parameters.component_id }}' }}
-          quay_destination: {{ ' ${{  parameters.image_organization}}/${{ parameters.component_id }}' }}
+          destination: {{ '${{  user.entity.metadata.name }}' }}/{{ '${{  parameters.component_id }}' }}
+          quay_destination: {{ '${{  parameters.image_organization}}/${{ parameters.component_id }}' }}
           port: 8080
-          user: {{ ' ${{  user.entity.metadata.name }}' }}
+          user: {{ '${{  user.entity.metadata.name }}' }}
 
     - id: publish
       name: Publish
       action: publish:gitlab
       input:
-        repoUrl: "gitlab-gitlab{{ cluster_subdomain }}?owner={{ ' ${{  user.entity.metadata.name }}' }}&repo=${{parameters.component_id}}"
+        repoUrl: "gitlab-gitlab{{ cluster_subdomain }}?owner={{ '${{  user.entity.metadata.name }}' }}&repo=${{parameters.component_id}}"
         repoVisibility: public
 
     - id: register
       name: Register
       action: catalog:register
       input:
-        repoContentsUrl: {{ ' ${{  steps.publish.output.repoContentsUrl }}' }}
+        repoContentsUrl: {{ '${{  steps.publish.output.repoContentsUrl }}' }}
         catalogInfoPath: "/catalog-info.yaml"
 
     - id: template-gitops-deployment
@@ -93,32 +93,32 @@ spec:
         url: ./manifests
         copyWithoutTemplating: []
         values:
-          component_id: {{ ' ${{  parameters.component_id }}' }}-{{ ' ${{  user.entity.metadata.name }}' }}
-          description: {{ ' ${{  parameters.description }}' }}
-          destination: https://gitlab-gitlab{{ cluster_subdomain }}/{{ ' ${{  user.entity.metadata.name }}' }}/${{parameters.component_id}}-gitops.git
-          source_repository: https://gitlab-gitlab{{ cluster_subdomain }}/{{ ' ${{  user.entity.metadata.name }}' }}/${{parameters.component_id}}.git
+          component_id: {{ '${{  parameters.component_id }}' }}-{{ '${{  user.entity.metadata.name }}' }}
+          description: {{ '${{  parameters.description }}' }}
+          destination: https://gitlab-gitlab{{ cluster_subdomain }}/{{ '${{  user.entity.metadata.name }}' }}/${{parameters.component_id}}-gitops.git
+          source_repository: https://gitlab-gitlab{{ cluster_subdomain }}/{{ '${{  user.entity.metadata.name }}' }}/${{parameters.component_id}}.git
           repository_name: ${{parameters.component_id}}
-          git_owner: {{ ' ${{  user.entity.metadata.name }}' }}
-          cluster: {{ ' ${{  parameters.cluster_id }}' }}
-          namespace: vote-app-dev-{{ ' ${{  user.entity.metadata.name }}' }}
-          image_registry: {{ ' ${{  parameters.image_registry }}' }}
-          image_host: {{ ' ${{  parameters.image_host }}' }}
-          image_organization: {{ ' ${{  parameters.image_organization }}' }}
-          image_name: {{ ' ${{  parameters.component_id }}' }}
-          image_tag: {{ ' ${{  parameters.image_tag }}' }}
+          git_owner: {{ '${{  user.entity.metadata.name }}' }}
+          cluster: {{ '${{  parameters.cluster_id }}' }}
+          namespace: vote-app-dev-{{ '${{  user.entity.metadata.name }}' }}
+          image_registry: {{ '${{  parameters.image_registry }}' }}
+          image_host: {{ '${{  parameters.image_host }}' }}
+          image_organization: {{ '${{  parameters.image_organization }}' }}
+          image_name: {{ '${{  parameters.component_id }}' }}
+          image_tag: {{ '${{  parameters.image_tag }}' }}
           port: 8080
           repository_host: gitlab-gitlab{{ cluster_subdomain }}
           deployment_name: vote-ui
-          user: {{ ' ${{  user.entity.metadata.name }}' }}
+          user: {{ '${{  user.entity.metadata.name }}' }}
         targetPath: ./tenant-gitops
 
     - id: publish-gitops
       name: Publishing to Resource Repository
       action: publish:gitlab
       input:
-        repoUrl: "gitlab-gitlab{{ cluster_subdomain }}?owner={{ ' ${{  user.entity.metadata.name }}' }}&repo=${{parameters.component_id}}-gitops"
-        title: gitops resources for {{ ' ${{  parameters.component_id }}' }}
-        description: gitops resources for {{ ' ${{  parameters.component_id }}' }}
+        repoUrl: "gitlab-gitlab{{ cluster_subdomain }}?owner={{ '${{  user.entity.metadata.name }}' }}&repo=${{parameters.component_id}}-gitops"
+        title: gitops resources for {{ '${{  parameters.component_id }}' }}
+        description: gitops resources for {{ '${{  parameters.component_id }}' }}
         sourcePath: ./tenant-gitops
         repoVisibility: public
 
@@ -126,16 +126,16 @@ spec:
       name: Create ArgoCD Resources
       action: argocd:create-resources
       input:
-        appName: {{ ' ${{  parameters.component_id }}' }}-{{ ' ${{  user.entity.metadata.name }}' }}-bootstrap
+        appName: {{ '${{  parameters.component_id }}' }}-{{ '${{  user.entity.metadata.name }}' }}-bootstrap
         argoInstance: main
         namespace: janus-argocd
-        repoUrl: https://gitlab-gitlab{{ cluster_subdomain }}/{{ ' ${{  user.entity.metadata.name }}' }}/{{ ' ${{  parameters.component_id }}' }}-gitops.git
+        repoUrl: https://gitlab-gitlab{{ cluster_subdomain }}/{{ '${{  user.entity.metadata.name }}' }}/{{ '${{  parameters.component_id }}' }}-gitops.git
         path: 'argocd/'
 
   output:
     links:
       - title: Source Code Repository
-        url: {{ ' ${{  steps.publish.output.remoteUrl }}' }}
+        url: {{ '${{  steps.publish.output.remoteUrl }}' }}
       - title: Open Component in catalog
         icon: catalog
-        entityRef: {{ ' ${{  steps.register.output.entityRef }}' }}
+        entityRef: {{ '${{  steps.register.output.entityRef }}' }}
