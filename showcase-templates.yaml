@@ -6,5 +6,5 @@ metadata:
 spec:
   type: url
   targets:
-     - https://{{ gitlab_host }}/{{ gitlab_group }}/inner-outer-loop-templates/blob/master/vote-ui-python/template.yaml
-     - https://{{ gitlab_host }}/{{ gitlab_group }}/inner-outer-loop-templates/blob/master/vote-api-go/template.yaml
+     - https://{{ gitlab_host }}/{{ gitlab_group }}/inner-outer-loop-templates/blob/main/vote-ui-python/template.yaml
+     - https://{{ gitlab_host }}/{{ gitlab_group }}/inner-outer-loop-templates/blob/main/vote-api-go/template.yaml
