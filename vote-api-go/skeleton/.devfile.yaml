@@ -13,7 +13,9 @@ components:
       endpoints:
         - name: 9000-http
           targetPort: 9000
-          protocol: http
+          exposure: public
+          secure: false
+          protocol: https
       memoryLimit: 2Gi
       mountSources: true
 
